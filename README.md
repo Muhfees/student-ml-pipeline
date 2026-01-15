@@ -1,5 +1,2 @@
 # student-ml-pipeline
-
-<<<<<<<
-=======
->>>>>>>
+Hi 
