@@ -1,3 +1,4 @@
+# Train logistic regression model for student performance prediction
 import pandas as pd
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
