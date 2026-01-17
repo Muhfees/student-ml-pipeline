@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Student Performance Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1e40af;
+        }
+        .result {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .pass {
+            color: green;
+        }
+        .fail {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Student Performance Predictor</h2>
+
+    <input id="attendance" type="number" placeholder="Attendance (%)" />
+    <input id="study_hours" type="number" placeholder="Study Hours" />
+    <input id="previous_marks" type="number" placeholder="Previous Marks" />
+    <input id="assignments" type="number" placeholder="Assignment Score" />
+
+    <button onclick="predict()">Predict</button>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    async function predict() {
+        const data = {
+            attendance: Number(document.getElementById("attendance").value),
+            study_hours: Number(document.getElementById("study_hours").value),
+            previous_marks: Number(document.getElementById("previous_marks").value),
+            assignments: Number(document.getElementById("assignments").value)
+        };
+
+        const response = await fetch("/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        const resultDiv = document.getElementById("result");
+
+        if (result.label === "PASS") {
+            resultDiv.innerHTML = "PASS ✅";
+            resultDiv.className = "result pass";
+        } else {
+            resultDiv.innerHTML = "FAIL ❌";
+            resultDiv.className = "result fail";
+        }
+    }
+</script>
+
+</body>
+</html>
